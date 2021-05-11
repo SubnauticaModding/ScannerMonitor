@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScannerMonitor", "ScannerMonitor\ScannerMonitor.csproj", "{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		BZ.EXP|Any CPU = BZ.EXP|Any CPU
+		BZ|Any CPU = BZ|Any CPU
+		Editor|Any CPU = Editor|Any CPU
+		SN1.EXP|Any CPU = SN1.EXP|Any CPU
+		SN1|Any CPU = SN1|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ.EXP|Any CPU.ActiveCfg = BZ.EXP|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ.EXP|Any CPU.Build.0 = BZ.EXP|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ|Any CPU.ActiveCfg = BZ|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ|Any CPU.Build.0 = BZ|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.Editor|Any CPU.ActiveCfg = Editor|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.Editor|Any CPU.Build.0 = Editor|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1.EXP|Any CPU.ActiveCfg = SN1.EXP|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1.EXP|Any CPU.Build.0 = SN1.EXP|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
+		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1|Any CPU.Build.0 = SN1|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D77E2E7-5B98-411D-8E3A-3B00BAAB71B2}
+	EndGlobalSection
+EndGlobal

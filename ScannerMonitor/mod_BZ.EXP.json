@@ -1,0 +1,10 @@
+{
+  "Id": "ScannerMonitor",
+  "DisplayName": "Scanner Monitor",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "ScannerMonitor.dll"
+}
