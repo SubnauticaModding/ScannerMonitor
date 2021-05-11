@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.566}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -225,6 +226,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -355,6 +357,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.078431375, g: 0.38431373, b: 0.7058824, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -430,6 +433,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.078431375, g: 0.38431373, b: 0.7058824, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -501,6 +505,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.22329153, g: 0.86764705, b: 0.22773533, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -574,6 +579,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.641}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -653,6 +659,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -727,6 +734,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.566}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -753,7 +761,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1317106595121238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1916260824, guid: 49977ca837a2b7a47bb1608744fbeb2f, type: 3}
+  m_Script: {fileID: 1916260824, guid: 723ebef7247828446a1f56136bd532d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ScannerMonitorDisplay: {fileID: 6397117592997941343}
@@ -820,6 +828,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -933,6 +942,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.641}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1013,6 +1023,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.566}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1039,7 +1050,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433609831740488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1916260824, guid: 49977ca837a2b7a47bb1608744fbeb2f, type: 3}
+  m_Script: {fileID: 1916260824, guid: 723ebef7247828446a1f56136bd532d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ScannerMonitorDisplay: {fileID: 6397117592997941343}
@@ -1186,6 +1197,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1279,6 +1291,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1373,6 +1386,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1403,6 +1417,7 @@ GameObject:
   - component: {fileID: 4837582782715908721}
   - component: {fileID: 6684258112188089936}
   - component: {fileID: 5123485828263670144}
+  - component: {fileID: 2175399497417476133}
   m_Layer: 0
   m_Name: ScannerMonitorModel
   m_TagString: Untagged
@@ -1475,6 +1490,7 @@ MonoBehaviour:
   techType: 0
   model: {fileID: 5944478698624138108}
   builtBoxFX: {fileID: 0}
+  ghostMaterial: {fileID: 0}
   controlModelState: 1
   controlledBehaviours: []
   allowedOnWall: 1
@@ -1485,6 +1501,7 @@ MonoBehaviour:
   allowedInBase: 1
   allowedOutside: 1
   allowedOnConstructables: 1
+  allowedUnderwater: 1
   forceUpright: 1
   rotationEnabled: 0
   placeMaxDistance: 10
@@ -1564,17 +1581,33 @@ MonoBehaviour:
   screenRoot: {fileID: 1796244652053154}
   hologramRoot: {fileID: 5193083636387458538}
   mat: {fileID: 2100000, guid: 9e303323a681cfe4c8f138f5f8ddb483, type: 2}
+  roomBlip: {fileID: 1606386596147162339, guid: 1622cf14a3b412741aed5ed699849387,
+    type: 3}
   blipPrefab: {fileID: 8560083531285675098, guid: 6c40d7d8fdabf91458548515b9cd8d15,
     type: 3}
-  cameraBlipPrefab: {fileID: 1937239368000773901, guid: 1622cf14a3b412741aed5ed699849387,
+  cameraBlipPrefab: {fileID: 1606386596147162339, guid: 1622cf14a3b412741aed5ed699849387,
     type: 3}
   cameraBlipRoot: {fileID: 477426815236706980}
   storageContainer: {fileID: 7575447148988215930}
   upgradeSlots: []
   ambientSound: {fileID: 4744371513731572391}
+  powerConsumer: {fileID: 2175399497417476133}
   hologramRadius: 1
   mapChunkSize: 32
   mapLOD: 1
+  scanIntensity: 1
+--- !u!114 &2175399497417476133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623873921292934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -998919875, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1659912519055400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1790,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1904,6 +1938,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.18382353, g: 0.18382353, b: 0.18382353, a: 0}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1974,7 +2009,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1796244652053154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1383695799, guid: 49977ca837a2b7a47bb1608744fbeb2f, type: 3}
+  m_Script: {fileID: 1383695799, guid: 723ebef7247828446a1f56136bd532d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MapRoomFunctionality: {fileID: 5123485828263670144}
@@ -2069,6 +2104,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.641}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2213,6 +2249,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.566}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2341,15 +2378,18 @@ MonoBehaviour:
   prefabRoot: {fileID: 1623873921292934}
   width: 4
   height: 4
+  containerType: 0
   hoverText: Upgrades
-  modelSizeRadius: 1
   storageLabel: StorageLabel
-  onUse:
-    m_PersistentCalls:
-      m_Calls: []
   errorSound: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  openLoopSound: {fileID: 0}
   storageRoot: {fileID: 5993512127512193610}
   preventDeconstructionIfNotEmpty: 1
+  animator: {fileID: 0}
+  animatorParam: opened
+  openedVFX: {fileID: 0}
 --- !u!1 &5193083636387458538
 GameObject:
   m_ObjectHideFlags: 0
@@ -2564,12 +2604,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 108b15424581f144db5297c05115072e, type: 3}
---- !u!23 &5944478698626131388 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: 108b15424581f144db5297c05115072e,
-    type: 3}
-  m_PrefabInstance: {fileID: 5944478698624237020}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5944478698623838044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 108b15424581f144db5297c05115072e,
@@ -2579,6 +2613,12 @@ Transform:
 --- !u!1 &5944478698624138108 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 108b15424581f144db5297c05115072e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5944478698624237020}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5944478698626131388 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 108b15424581f144db5297c05115072e,
     type: 3}
   m_PrefabInstance: {fileID: 5944478698624237020}
   m_PrefabAsset: {fileID: 0}

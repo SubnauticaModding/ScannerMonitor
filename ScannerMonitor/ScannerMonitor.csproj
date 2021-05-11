@@ -56,12 +56,12 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Editor|AnyCPU'">
-    <DefineConstants>SN1;SUBNAUTICA_STABLE; UNITY_EDITOR</DefineConstants>
+    <DefineConstants>BZ;BELOWZERO; UNITY_EDITOR</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
-    <DataFolder>Subnautica_Data</DataFolder>
-    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
+    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
+    <DataFolder>SubnauticaZero_Data</DataFolder>
+    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -164,12 +164,19 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-      copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(OutDir)mod.json" /y
-      xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
+if NOT "$(ConfigurationName)" == "Editor"  (
+  
+copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(OutDir)mod.json" /y
+     
+ xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
 
 
-      if "$(ConfigurationName)" == "Editor"  (
-      copy "$(TargetPath)" "$(SolutionDir)ScannerMonitor Unity Project\Packages\Subnautica" /y
+     
+)
+
+if "$(ConfigurationName)" == "Editor"  (
+      
+copy "$(TargetPath)" "$(SolutionDir)ScannerMonitor Unity Project\Packages\SubnauticaZero" /y
       )</PostBuildEvent>
   </PropertyGroup>
 </Project>
