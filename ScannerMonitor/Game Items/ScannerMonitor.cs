@@ -8,15 +8,12 @@ namespace ScannerMonitor.Game_Items
     using SMLHelper.V2.Handlers;
     using SMLHelper.V2.Utility;
     using UnityEngine;
+    using System.Reflection;
 #if SN1
     using RecipeData = SMLHelper.V2.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 
-
-    /**
-    * The generic resource monitor object that will be shared among all different types of the resource monitor.
-    */
     public class ScannerMonitor : Buildable
     {
         public override TechGroup GroupForPDA => TechGroup.InteriorModules;
@@ -24,53 +21,56 @@ namespace ScannerMonitor.Game_Items
 
         public override TechType RequiredForUnlock => TechType.ScannerRoomBlueprint;
 
-        public static readonly string CLASS_ID = "ScannerMonitor";
-        public static readonly string NICE_NAME = "Scanner Tracking Screen";
-        public static readonly string DESCRIPTION = "Small Scale Scanner Module.";
+        private const string CLASS_ID = "ScannerMonitor";
+        private const string NICE_NAME = "Scanner Tracking Screen";
+        private const string DESCRIPTION = "Small Scale Scanner Module.";
 
-        public ScannerMonitor() : base(CLASS_ID, NICE_NAME, DESCRIPTION)
-        {
-        }
+        private static readonly string modFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static readonly string assetsFolderPath = Path.Combine(modFolderPath, "Assets");
+        private static readonly string assetBundlePath = Path.Combine(assetsFolderPath , "scannermonitor");
+        private static GameObject processedPrefab;
+        
+        private static readonly AssetBundle AssetBundle = AssetBundle.LoadFromFile(assetBundlePath);
+        public ScannerMonitor() : base(CLASS_ID, NICE_NAME, DESCRIPTION) { }
 
         public override GameObject GetGameObject()
         {
-            GameObject screen = Object.Instantiate(EntryPoint.SCANNER_MONITOR_DISPLAY_MODEL);
-
-            foreach(Renderer renderer in screen.GetComponentsInChildren<Renderer>())
-                renderer.material.shader = Shader.Find("MarmosetUBER");
-            foreach(var uid in screen.GetComponentsInChildren<UniqueIdentifier>())
+            if (processedPrefab is not null) return Object.Instantiate(processedPrefab);
+            
+            processedPrefab = AssetBundle.LoadAsset<GameObject>("ScannerMonitorModel");
+            Shader MarmosetUBER = Shader.Find("MarmosetUBER");
+            foreach (Renderer renderer in processedPrefab.GetComponentsInChildren<Renderer>())
+                renderer.material.shader = MarmosetUBER;
+            foreach(var uid in processedPrefab.GetComponentsInChildren<UniqueIdentifier>())
                 uid.classId = ClassID;
-
-            screen.GetComponent<Constructable>().techType = this.TechType;
-            screen.GetComponent<TechTag>().type = this.TechType;
-
-            return screen;
+            processedPrefab.GetComponent<Constructable>().techType = this.TechType;
+            processedPrefab.GetComponent<TechTag>().type = this.TechType;
+            
+            return Object.Instantiate(processedPrefab);
         }
 
         protected override RecipeData GetBlueprintRecipe()
         {
             TechType tech = TechTypeHandler.TryGetModdedTechType("Kit_BaseMapRoom", out TechType techType) ? techType : TechType.AdvancedWiringKit;
-            if(tech == TechType.AdvancedWiringKit)
-            {
-                RecipeData data = CraftDataHandler.GetTechData(TechType.BaseMapRoom);
-                data.Ingredients.Add(new Ingredient(tech, 2));
-
-                return data;
-            }
-
-            return new RecipeData()
-            {
-                craftAmount = 1,
-                Ingredients = new List<Ingredient>()
+            if (tech != TechType.AdvancedWiringKit)
+                return new RecipeData()
                 {
-                    new Ingredient(tech, 1),
-                    new Ingredient(TechType.AdvancedWiringKit, 2)
-                }
-            };
+                    craftAmount = 1,
+                    Ingredients = new List<Ingredient>()
+                    {
+                        new Ingredient(tech, 1),
+                        new Ingredient(TechType.AdvancedWiringKit, 2)
+                    }
+                };
+            RecipeData data = CraftDataHandler.GetTechData(TechType.BaseMapRoom);
+            data.Ingredients.Add(new Ingredient(tech, 2));
+
+            return data;
+
         }
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(EntryPoint.MOD_FOLDER_LOCATION, "Assets/ScannerMonitor.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(assetsFolderPath, "ScannerMonitor.png"));
         }
     }
 }
