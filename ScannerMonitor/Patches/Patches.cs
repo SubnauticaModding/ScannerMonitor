@@ -18,19 +18,21 @@ namespace ScannerMonitor.Patches
         [HarmonyPrefix]
         public static void Builder_CreateGhost_Prefix()
         {
-            if(Builder.prefab is null || Builder.ghostModel is null || CraftData.GetTechType(Builder.prefab) != EntryPoint.ScannerMonitor.TechType)
+            if(Builder.prefab is null || Builder.ghostModel is null || CraftData.GetTechType(Builder.prefab) != EntryPoint.ScannerMonitorTechType)
                 return;
 
 
-            if(GameInput.GetButtonDown(GameInput.Button.CycleNext) || GameInput.GetButtonHeld(GameInput.Button.CycleNext))
+            if(GameInput.GetButtonDown(GameInput.Button.CyclePrev) || GameInput.GetButtonHeld(GameInput.Button.CyclePrev))
             {
+                if (Builder.prefab.transform.localScale.x >= 2.65f) return;
                 Builder.prefab.transform.localScale *= 1.01f;
                 GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
             }
 
-            if(GameInput.GetButtonDown(GameInput.Button.CyclePrev) || GameInput.GetButtonHeld(GameInput.Button.CyclePrev))
+            if(GameInput.GetButtonDown(GameInput.Button.CycleNext) || GameInput.GetButtonHeld(GameInput.Button.CycleNext))
             {
+                if (Builder.prefab.transform.localScale.x <= 0.5f) return;
                 Builder.prefab.transform.localScale *= 0.99f;
                 GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
@@ -44,57 +46,36 @@ namespace ScannerMonitor.Patches
             }
 
 
-            string msg1 = $"Press {GameInput.GetBinding(GameInput.GetPrimaryDevice(), GameInput.Button.CycleNext, GameInput.BindingSet.Primary)} to Enlarge Monitor";
-            ErrorMessage._Message emsg = ErrorMessage.main.GetExistingMessage(msg1);
-            string msg2 = $"Press {GameInput.GetBinding(GameInput.GetPrimaryDevice(),GameInput.Button.CyclePrev, GameInput.BindingSet.Primary)} to Shrink Monitor";
-            ErrorMessage._Message emsg2 = ErrorMessage.main.GetExistingMessage(msg2);
-            string msg3 = $"Press {GameInput.GetBinding(GameInput.GetPrimaryDevice(), GameInput.Button.Deconstruct, GameInput.BindingSet.Primary)} to Reset Monitor Size";
-            ErrorMessage._Message emsg3 = ErrorMessage.main.GetExistingMessage(msg3);
+            var device = GameInput.GetPrimaryDevice();
+            var msg1 = $"Press {GameInput.GetBinding(device, GameInput.Button.CyclePrev, GameInput.BindingSet.Primary)} to Enlarge Monitor";
+            var msg2 = $"Press {GameInput.GetBinding(device,GameInput.Button.CycleNext, GameInput.BindingSet.Primary)} to Shrink Monitor";
+            var msg3 = $"Press {GameInput.GetBinding(device, GameInput.Button.Deconstruct, GameInput.BindingSet.Primary)} to Reset Monitor Size";
+            ErrorMessage._Message errorMessage = ErrorMessage.main.GetExistingMessage(msg1);
+            ErrorMessage._Message errorMessage2 = ErrorMessage.main.GetExistingMessage(msg2);
+            ErrorMessage._Message errorMessage3 = ErrorMessage.main.GetExistingMessage(msg3);
 
-            if(emsg != null)
+            ProcessMsg(errorMessage, msg1);
+            ProcessMsg(errorMessage2, msg2);
+            ProcessMsg(errorMessage3, msg3);
+        }
+
+        private static void ProcessMsg(ErrorMessage._Message errorMessage, string msg)
+        {
+            if (errorMessage != null)
             {
-                emsg.messageText = msg1;
-                emsg.entry.text = msg1;
-                if(emsg.timeEnd <= Time.time + 1f)
-                    emsg.timeEnd += Time.deltaTime;
+                errorMessage.messageText = msg;
+                errorMessage.entry.text = msg;
+                if (errorMessage.timeEnd <= Time.time + 1f)
+                    errorMessage.timeEnd += Time.deltaTime;
                 else
-                    emsg.timeEnd = Time.time + 1f;
+                    errorMessage.timeEnd = Time.time + 1f;
             }
             else
             {
-                ErrorMessage.AddMessage(msg1);
-            }
-
-            if(emsg2 != null)
-            {
-                emsg2.messageText = msg2;
-                emsg2.entry.text = msg2;
-
-                if(emsg2.timeEnd <= Time.time + 1f)
-                    emsg2.timeEnd += Time.deltaTime;
-                else
-                    emsg2.timeEnd = Time.time + 1f;
-            }
-            else
-            {
-                ErrorMessage.AddMessage(msg2);
-            }
-
-            if(emsg3 != null)
-            {
-                emsg3.messageText = msg3;
-                emsg3.entry.text = msg3;
-
-                if(emsg3.timeEnd <= Time.time + 1f)
-                    emsg3.timeEnd += Time.deltaTime;
-                else
-                    emsg3.timeEnd = Time.time + 1f;
-            }
-            else
-            {
-                ErrorMessage.AddMessage(msg3);
+                ErrorMessage.AddMessage(msg);
             }
         }
+        
     }
 }
 #endif
