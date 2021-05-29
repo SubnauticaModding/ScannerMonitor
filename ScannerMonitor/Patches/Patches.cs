@@ -9,7 +9,14 @@ namespace ScannerMonitor.Patches
     {
         [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.OnPostRebuildGeometry))]
         [HarmonyPrefix]
-        public static bool MapRoomFunctionality_OnPostRebuildGeometry_Prefix(MapRoomFunctionality __instance, Base b)
+        public static bool MapRoomFunctionality_OnPostRebuildGeometry_Prefix(MapRoomFunctionality __instance)
+        {
+            return !__instance.gameObject.name.Contains("ScannerMonitor");
+        }
+        
+        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.UpdateModel))]
+        [HarmonyPrefix]
+        public static bool MapRoomFunctionality_UpdateModel_Prefix(MapRoomFunctionality __instance)
         {
             return !__instance.gameObject.name.Contains("ScannerMonitor");
         }
