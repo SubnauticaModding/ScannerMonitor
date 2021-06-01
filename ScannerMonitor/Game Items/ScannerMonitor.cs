@@ -19,7 +19,7 @@ namespace ScannerMonitor.Game_Items
         public override TechGroup GroupForPDA => TechGroup.InteriorModules;
         public override TechCategory CategoryForPDA => TechCategory.InteriorModule;
 
-        public override TechType RequiredForUnlock => TechType.ScannerRoomBlueprint;
+        public override TechType RequiredForUnlock => TechType.BaseMapRoom;
 
         private const string CLASS_ID = "ScannerMonitor";
         private const string NICE_NAME = "Scanner Tracking Screen";
@@ -59,11 +59,11 @@ namespace ScannerMonitor.Game_Items
                     Ingredients = new List<Ingredient>()
                     {
                         new Ingredient(tech, 1),
-                        new Ingredient(TechType.AdvancedWiringKit, 2)
+                        new Ingredient(TechType.AdvancedWiringKit, 1)
                     }
                 };
             RecipeData data = CraftDataHandler.GetTechData(TechType.BaseMapRoom);
-            data.Ingredients.Add(new Ingredient(tech, 2));
+            data.Ingredients.Add(new Ingredient(tech, 1));
 
             return data;
 
