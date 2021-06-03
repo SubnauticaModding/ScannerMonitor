@@ -150,15 +150,16 @@
     </Content>
     <Content Include="mod_BZ.json" />
     <Content Include="mod_SN1.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="mod_BZ.EXP.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="mod_SN1.EXP.json" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition ="$(Configuration.StartsWith(SN1))">
     <Content Include="Assets\scannermonitor">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition ="$(Configuration.StartsWith(BZ))">
+    <Content Include="Assets\scannermonitorbz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -170,7 +171,8 @@
 
 
       if "$(ConfigurationName)" == "Editor"  (
-      copy "$(TargetPath)" "$(SolutionDir)ScannerMonitor Unity Project\Packages\Subnautica" /y
+      copy "$(TargetPath)" "$(SolutionDir)ScannerMonitor Subnautica Project\Packages\Subnautica" /y
+      copy "$(TargetPath)" "$(SolutionDir)ScannerMonitor BelowZero Project\Packages\SubnauticaZero" /y
       )</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -27,13 +27,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 
-ScannerMonitor Unity Project/Library/PackageCache/
-ScannerMonitor Unity Project/Library/ShaderCache/
-ScannerMonitor Unity Project/Library/StateCache/
-ScannerMonitor Unity Project/Library/ScriptAssemblies/
-ScannerMonitor Unity Project/Built Asset Bundles/
-ScannerMonitor Unity Project/Temp/
-ScannerMonitor/Assets/
+
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -351,9 +345,7 @@ healthchecksdb
 # =============== #
 # Unity generated #
 # =============== #
-ResourceMonitor Unity Project/Temp/
-ResourceMonitor Unity Project/Library/
-ScannerMonitor Unity Project/Assets/ThunderKitSettings/
-ScannerMonitor Unity Project/Library/
 
-.vs/**
+ScannerMonitor * Project/[Ll]ibrary/
+ScannerMonitor * Project/[Aa]ssets/[Pp]lugins/
+!ScannerMonitor * Project/[Pp]ackages/manifest.json

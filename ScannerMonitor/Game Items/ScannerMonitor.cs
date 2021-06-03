@@ -25,9 +25,16 @@ namespace ScannerMonitor.Game_Items
         private const string NICE_NAME = "Scanner Tracking Screen";
         private const string DESCRIPTION = "Small Scale Scanner Module.";
 
+        private const string ASSET_BUNDLE_NAME =
+#if SN1
+            "scannermonitor";
+#elif BZ
+            "scannermonitorbz";
+#endif
+
         private static readonly string modFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly string assetsFolderPath = Path.Combine(modFolderPath, "Assets");
-        private static readonly string assetBundlePath = Path.Combine(assetsFolderPath , "scannermonitor");
+        private static readonly string assetBundlePath = Path.Combine(assetsFolderPath , ASSET_BUNDLE_NAME);
         private static GameObject processedPrefab;
         
         private static readonly AssetBundle AssetBundle = AssetBundle.LoadFromFile(assetBundlePath);
