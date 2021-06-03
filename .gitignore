@@ -347,5 +347,6 @@ healthchecksdb
 # =============== #
 
 ScannerMonitor * Project/[Ll]ibrary/
+ScannerMonitor * Project/[Tt]emp/
 ScannerMonitor * Project/[Aa]ssets/[Pp]lugins/
 !ScannerMonitor * Project/[Pp]ackages/manifest.json
