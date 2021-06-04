@@ -7,13 +7,91 @@ namespace ScannerMonitor.Patches
     [HarmonyPatch]
     public static class Patches
     {
-        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.OnPostRebuildGeometry))]
+        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.Start))]
         [HarmonyPrefix]
-        public static bool MapRoomFunctionality_OnPostRebuildGeometry_Prefix(MapRoomFunctionality __instance, Base b)
+        public static bool MapRoomFunctionality_OnPostRebuildGeometry_Prefix(MapRoomFunctionality __instance)
         {
-            return !__instance.gameObject.name.Contains("ScannerMonitor");
+            if(!__instance.gameObject.name.Contains("ScannerMonitor"))
+                return true;
+            
+            Start(__instance);
+            return false;
         }
 
+#if SN1
+        private static void Start(MapRoomFunctionality mapRoomFunctionality)
+        {
+            mapRoomFunctionality.wireFrameWorld.rotation = Quaternion.identity;
+            mapRoomFunctionality.ReloadMapWorld();
+            if(mapRoomFunctionality.typeToScan != TechType.None)
+            {
+                double num = mapRoomFunctionality.timeLastScan;
+                int num2 = mapRoomFunctionality.numNodesScanned;
+                mapRoomFunctionality.StartScanning(mapRoomFunctionality.typeToScan);
+                mapRoomFunctionality.timeLastScan = num;
+                mapRoomFunctionality.numNodesScanned = num2;
+            }
+            ResourceTracker.onResourceDiscovered += mapRoomFunctionality.OnResourceDiscovered;
+            ResourceTracker.onResourceRemoved += mapRoomFunctionality.OnResourceRemoved;
+            mapRoomFunctionality.matInstance = UnityEngine.Object.Instantiate<Material>(mapRoomFunctionality.mat);
+            mapRoomFunctionality.matInstance.SetFloat(ShaderPropertyID._ScanIntensity, 0f);
+            mapRoomFunctionality.matInstance.SetVector(ShaderPropertyID._MapCenterWorldPos, mapRoomFunctionality.transform.position);
+            MapRoomFunctionality.mapRooms.Add(mapRoomFunctionality);
+            mapRoomFunctionality.Subscribe(true);
+            mapRoomFunctionality.powerRelay = mapRoomFunctionality.GetComponentInParent<PowerRelay>();
+            bool flag;
+            if(mapRoomFunctionality.powerRelay)
+            {
+                flag = (!GameModeUtils.RequiresPower() || mapRoomFunctionality.powerRelay.IsPowered());
+                mapRoomFunctionality.prevPowerRelayState = flag;
+                mapRoomFunctionality.forcePoweredIfNoRelay = false;
+            }
+            else
+            {
+                flag = true;
+                mapRoomFunctionality.prevPowerRelayState = true;
+                mapRoomFunctionality.forcePoweredIfNoRelay = true;
+            }
+            mapRoomFunctionality.screenRoot.SetActive(flag);
+            mapRoomFunctionality.hologramRoot.SetActive(flag);
+            if(flag)
+            {
+                mapRoomFunctionality.ambientSound.Play();
+            }
+        }
+#elif BZ
+        private static void Start(MapRoomFunctionality mapRoomFunctionality)
+        {
+            mapRoomFunctionality.wireFrameWorld.rotation = Quaternion.identity;
+            mapRoomFunctionality.ReloadMapWorld();
+            if(mapRoomFunctionality.typeToScan != TechType.None)
+            {
+                double num = mapRoomFunctionality.timeLastScan;
+                int num2 = mapRoomFunctionality.numNodesScanned;
+                mapRoomFunctionality.StartScanning(mapRoomFunctionality.typeToScan);
+                mapRoomFunctionality.timeLastScan = num;
+                mapRoomFunctionality.numNodesScanned = num2;
+            }
+
+            ResourceTrackerDatabase.onResourceDiscovered += mapRoomFunctionality.OnResourceDiscovered;
+            ResourceTrackerDatabase.onResourceRemoved += mapRoomFunctionality.OnResourceRemoved;
+            mapRoomFunctionality.matInstance = UnityEngine.Object.Instantiate<Material>(mapRoomFunctionality.mat);
+            mapRoomFunctionality.matInstance.SetFloat(ShaderPropertyID._ScanIntensity, 0f);
+            mapRoomFunctionality.matInstance.SetFloat(ShaderPropertyID._ScanFrequency, 0f);
+            mapRoomFunctionality.matInstance.SetVector(ShaderPropertyID._MapCenterWorldPos,
+                mapRoomFunctionality.transform.position);
+            MapRoomFunctionality.mapRooms.Add(mapRoomFunctionality);
+            mapRoomFunctionality.Subscribe(true);
+            mapRoomFunctionality.powered = (!GameModeUtils.RequiresPower() || mapRoomFunctionality.powerConsumer.IsPowered());
+            mapRoomFunctionality.screenRoot.SetActive(mapRoomFunctionality.powered);
+            mapRoomFunctionality.hologramRoot.SetActive(mapRoomFunctionality.powered);
+            if(mapRoomFunctionality.powered)
+            {
+                mapRoomFunctionality.ambientSound.Play();
+            }
+        }
+#endif
+        
         [HarmonyPatch(typeof(Builder), nameof(Builder.CreateGhost))]
         [HarmonyPrefix]
         public static void Builder_CreateGhost_Prefix()
