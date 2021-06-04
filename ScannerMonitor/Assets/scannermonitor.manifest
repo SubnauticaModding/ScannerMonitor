@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2594634213
+CRC: 1810794082
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b7d1655a6dee6d583a8466ad22c6f238
+    Hash: d445ddb378e9019edfeec58eaebb4759
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bce3c9e05e5d82e0849dc18403e722d5
+    Hash: ea1b775d2816ec497250ee6d6b04efa5
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -68,6 +68,12 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
 - Class: 114
+  Script: {fileID: 539949004, guid: cee17075e57114942b11322cc86e9c72, type: 3}
+- Class: 114
+  Script: {fileID: 1916260824, guid: cee17075e57114942b11322cc86e9c72, type: 3}
+- Class: 114
+  Script: {fileID: 1383695799, guid: cee17075e57114942b11322cc86e9c72, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
@@ -83,12 +89,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-- Class: 114
-  Script: {fileID: 539949004, guid: 5e53a09f6caf72f41b3b4e684055ee73, type: 3}
-- Class: 114
-  Script: {fileID: 1916260824, guid: 5e53a09f6caf72f41b3b4e684055ee73, type: 3}
-- Class: 114
-  Script: {fileID: 1383695799, guid: 5e53a09f6caf72f41b3b4e684055ee73, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -102,23 +102,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/animations/DisabledScreen.controller
-- Assets/art/Materials/frame_albedo_enhanced.mat
-- Assets/animations/Welcome.anim
-- Assets/animations/ShowMainScreen.anim
-- Assets/art/frame.blend
-- Assets/ScriptableObject/map_room_background.asset
-- Assets/art/Materials/MapMesh.mat
-- Assets/prefabs/CamBlip.prefab
-- Assets/art/Material_001.mat
 - Assets/prefabs/ScannerMonitorModel.prefab
-- Assets/prefabs/Blip.prefab
-- Assets/prefabs/ScannerMonitorDisplayUI.prefab
-- Assets/art/Materials/CamBlip.mat
-- Assets/animations/Reset.anim
-- Assets/prefabs/ScannerItem.prefab
-- Assets/ScriptableObject/apear.asset
-- Assets/animations/Canvas.controller
-- Assets/art/frame.fbx
-- Assets/art/Materials/Blip.mat
 Dependencies: []

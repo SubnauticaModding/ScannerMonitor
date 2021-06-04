@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 290491360
+CRC: 1772306676
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: scannermonitorbz
+      Name: scannermonitor
       Dependencies: {}
