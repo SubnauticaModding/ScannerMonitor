@@ -169,6 +169,9 @@
       copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(OutDir)mod.json" /y
       xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
 
+      mkdir "$(SolutionDir)..\QModZips"
+      powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(SolutionDir)..\QModZips\$(ProjectName)$(Configuration).zip' -Force
+
 
       if "$(ConfigurationName)" == "Editor"  (
       mkdir "$(SolutionDir)ScannerMonitor Subnautica Project\Packages\Subnautica"

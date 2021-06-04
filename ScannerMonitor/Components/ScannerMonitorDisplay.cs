@@ -1,19 +1,24 @@
 ﻿namespace ScannerMonitor.Components
 {
-    using SMLHelper.V2.Handlers;
-    using SMLHelper.V2.Utility;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.IO;
     using UnityEngine;
-    using UnityEngine.EventSystems;
     using UnityEngine.UI;
+    using System.Collections.Generic;
+#if !UNITY_EDITOR
+    using UnityEngine.EventSystems;
+    using SMLHelper.V2.Utility;
+    using System.Collections;
+    using System.IO;
+    using System.Linq;
     using Random = UnityEngine.Random;
 #if SUBNAUTICA_STABLE
     using Oculus.Newtonsoft.Json;
 #else
     using Newtonsoft.Json;
+#endif
+#if SN1
+    using ResourceTrackerDatabase = ResourceTracker;
+#endif
+
 #endif
 
     /**
@@ -22,28 +27,27 @@
     * Handles the idle screen saver.
     * Handles the welcome animations.
     */
-    public class ScannerMonitorDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
-
+    public class ScannerMonitorDisplay : MonoBehaviour
 #if !UNITY_EDITOR
-        , IProtoEventListener
+        , IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IProtoEventListener
 #endif
     {
         public static readonly float WELCOME_ANIMATION_TIME = 8.5f;
         public static readonly float MAIN_SCREEN_ANIMATION_TIME = 1.2f;
         public int ITEMS_PER_PAGE => Mathf.RoundToInt(6 * MapRoomFunctionality.transform.localScale.x);
-
-        public List<TechType> TrackedResources { set; get; } = new List<TechType>();
+        
         public Dictionary<TechType, GameObject> trackedResourcesDisplayElements;
         public MapRoomFunctionality MapRoomFunctionality;
+        private readonly HashSet<TechType> availableTechTypes = new();
         public Constructable Constructable;
         public int currentPage = 1;
         public int maxPage = 1;
         public float idlePeriodLength = 20f;
-        public float timeSinceLastInteraction = 0f;
-        public bool isIdle = false;
+        public float timeSinceLastInteraction;
+        public bool isIdle;
         public float nextColorTransitionCurrentTime;
         public float transitionIdleTime;
-        public List<Color> PossibleIdleColors = new List<Color>()
+        public List<Color> PossibleIdleColors = new()
         {
             new Color(0.07f, 0.38f, 0.70f), // BLUE
             new Color(0.86f, 0.22f, 0.22f), // RED
@@ -51,10 +55,10 @@
         };
         public Color currentColor;
         public Color nextColor;
-        public bool isHovered = false;
-        public bool isHoveredOutOfRange = false;
+        public bool isHovered;
+        public bool isHoveredOutOfRange;
 
-        public Vector3 lastscale = Vector3.zero;
+        public Vector3 lastScale = Vector3.zero;
 
         public GameObject CanvasGameObject;
         public Animator animator;
@@ -71,27 +75,18 @@
         public Image idleScreenTitleBackgroundImage;
         public GameObject itemPrefab;
 
+#if !UNITY_EDITOR
         public void OnEnable()
         {
             if(Constructable.constructed)
             {
-#if !UNITY_EDITOR
-                LoadCache();
-#if SN1
-                foreach(TechType techType in ResourceTracker.resources.Keys)
-#elif BZ
-                foreach(TechType techType in ResourceTrackerDatabase.resources.Keys)
-#endif
-                {
-                    if(!TrackedResources.Contains(techType))
-                        TrackedResources.Add(techType);
-                }
-                SaveCache();
-#endif
                 trackedResourcesDisplayElements = new Dictionary<TechType, GameObject>();
-
+                MapRoomFunctionality.storageContainer.container.onAddItem += OnContainerChange;
+                MapRoomFunctionality.storageContainer.container.onRemoveItem += OnContainerChange;
                 CalculateNewColourTransitionTime();
                 CalculateNewIdleTime();
+                availableTechTypes.Clear();
+                ResourceTrackerDatabase.GetTechTypesInRange(gameObject.transform.position, MapRoomFunctionality.GetScanRange(), availableTechTypes);
                 UpdatePaginator();
 
                 StartCoroutine(FinalSetup());
@@ -104,7 +99,13 @@
 
         public void OnDisable()
         {
+            MapRoomFunctionality.storageContainer.container.onAddItem -= OnContainerChange;
+            MapRoomFunctionality.storageContainer.container.onRemoveItem -= OnContainerChange;
             TurnDisplayOff();
+        }
+        private void OnContainerChange(InventoryItem item)
+        {
+            DrawPage(0);
         }
 
         public IEnumerator FinalSetup()
@@ -142,8 +143,9 @@
 
         public void CalculateNewMaxPages()
         {
-            int items = ITEMS_PER_PAGE;
-            maxPage = items <= 0 ? 1 : Mathf.CeilToInt((TrackedResources.Count - 1) / items) + 1;
+            var items = ITEMS_PER_PAGE;
+            var count = availableTechTypes.Count;
+            maxPage = items <= 0 ? 1 : Mathf.CeilToInt((count - 1) / items) + 1;
             if (currentPage > maxPage)
             {
                 currentPage = maxPage;
@@ -167,34 +169,27 @@
                 currentPage = maxPage;
             }
 
-            int items = ITEMS_PER_PAGE;
-
-#if SN1
-            foreach(TechType techType in ResourceTracker.resources.Keys)
-#elif BZ
-            foreach(TechType techType in ResourceTrackerDatabase.resources.Keys)
-#endif
-            {
-                if(!TrackedResources.Contains(techType))
-                    TrackedResources.Add(techType);
-            }
-#if !UNITY_EDITOR
-            SaveCache();
-#endif
+            var items = ITEMS_PER_PAGE;
+            
             var startingPosition = (currentPage - 1) * items;
             var endingPosition = startingPosition + items;
-            if (endingPosition > TrackedResources.Count)
+            availableTechTypes.Clear();
+            ResourceTrackerDatabase.GetTechTypesInRange(gameObject.transform.position, MapRoomFunctionality.GetScanRange(), availableTechTypes);
+            var count = availableTechTypes.Count;
+            if(endingPosition > count)
             {
-                endingPosition = TrackedResources.Count;
+                endingPosition = count;
             }
 
             ClearPage();
             if(items > 0)
             {
-                float scale = Mathf.Min(200f, 2400f / (endingPosition - startingPosition));
+                var scale = Mathf.Min(200f, 2400f / (endingPosition - startingPosition));
                 mainScreenItemGrid.cellSize = Vector2.one*scale;
+                var keys = availableTechTypes.ToList();
+                keys.Sort(uGUI_MapRoomScanner.CompareByName);
                 for(var i = startingPosition; i < endingPosition; i++)
-                    CreateAndAddItemDisplay(TrackedResources[i]);
+                    CreateAndAddItemDisplay(keys[i]);
             }
             UpdatePaginator();
         }
@@ -209,15 +204,12 @@
 
         public void ClearPage()
         {
-            for (int i = 0; i < mainScreenItemGrid.transform.childCount; i++)
+            for (var i = 0; i < mainScreenItemGrid.transform.childCount; i++)
             {
                 Destroy(mainScreenItemGrid.transform.GetChild(i).gameObject);
             }
 
-            if (trackedResourcesDisplayElements != null)
-            {
-                trackedResourcesDisplayElements.Clear();
-            }
+            trackedResourcesDisplayElements?.Clear();
         }
 
         public void CreateAndAddItemDisplay(TechType type)
@@ -232,15 +224,15 @@
             itemButton.Type = type;
 
             var icon = itemDisplay.transform.Find("ItemHolder").gameObject.GetComponent<uGUI_Icon>();
-            icon.sprite = SpriteManager.Get(type);
+                icon.sprite = SpriteManager.Get(type);
         }
 
         public void Update()
         {
-            if(MapRoomFunctionality.transform.localScale != lastscale)
+            if(MapRoomFunctionality.transform.localScale != lastScale)
             {
-                lastscale = MapRoomFunctionality.transform.localScale;
-                DrawPage(currentPage);
+                lastScale = MapRoomFunctionality.transform.localScale;
+                DrawPage(0);
             }
 
             if (isIdle == false && timeSinceLastInteraction < idlePeriodLength)
@@ -253,42 +245,37 @@
                 EnterIdleScreen();
             }
 
-            if (isHovered == false && isHoveredOutOfRange == true && InIdleInteractionRange() == true)
+            if (isHovered == false && isHoveredOutOfRange && InIdleInteractionRange())
             {
                 isHovered = true;
                 ExitIdleScreen();
             }
 
-            if (isHovered == true)
+            if (isHovered)
             {
                 ResetIdleTimer();
             }
 
-            if (isIdle == true)
+            if (!isIdle) return;
+            if (nextColorTransitionCurrentTime >= transitionIdleTime)
             {
-                if (nextColorTransitionCurrentTime >= transitionIdleTime)
+                nextColorTransitionCurrentTime = 0f;
+                for (var i = 0; i < PossibleIdleColors.Count; i++)
                 {
-                    nextColorTransitionCurrentTime = 0f;
-                    for (int i = 0; i < PossibleIdleColors.Count; i++)
+                    if (PossibleIdleColors[i] != nextColor) continue;
+                    i++;
+                    currentColor = nextColor;
+                    if (i >= PossibleIdleColors.Count)
                     {
-
-                        if (PossibleIdleColors[i] == nextColor)
-                        {
-                            i++;
-                            currentColor = nextColor;
-                            if (i >= PossibleIdleColors.Count)
-                            {
-                                i = 0;
-                            }
-                            nextColor = PossibleIdleColors[i];
-                            CalculateNewColourTransitionTime();
-                        }
+                        i = 0;
                     }
+                    nextColor = PossibleIdleColors[i];
+                    CalculateNewColourTransitionTime();
                 }
-
-                nextColorTransitionCurrentTime += Time.deltaTime;
-                idleScreenTitleBackgroundImage.color = Color.Lerp(currentColor, nextColor, nextColorTransitionCurrentTime / transitionIdleTime);
             }
+
+            nextColorTransitionCurrentTime += Time.deltaTime;
+            idleScreenTitleBackgroundImage.color = Color.Lerp(currentColor, nextColor, nextColorTransitionCurrentTime / transitionIdleTime);
         }
 
         public bool InIdleInteractionRange()
@@ -379,11 +366,9 @@
         {
             StopAllCoroutines();
         }
-
-#if !UNITY_EDITOR
+        
         public void OnProtoSerialize(ProtobufSerializer serializer)
         {
-            SaveCache();
             var CurrentScanFilePath = Path.Combine(SaveUtils.GetCurrentSaveDataDir(), $"{gameObject.GetComponent<PrefabIdentifier>().id}.json");
             var writer = new StreamWriter(CurrentScanFilePath);
             try
@@ -395,7 +380,7 @@
                             Formatting = Formatting.Indented,
                             Converters = new List<JsonConverter>
                             {
-                            new TechTypeConverter()
+                            new EntryPoint.TechTypeConverter()
                             }
                         })
                     );
@@ -407,110 +392,33 @@
                 writer.Close();
             }
         }
-
-        public void SaveCache()
-        {
-            string CacheFilePath = Path.Combine(SaveUtils.GetCurrentSaveDataDir(), "FoundScanTypes.json");
-            var writer = new StreamWriter(CacheFilePath);
-            try
-            {
-                writer.Write(
-                    JsonConvert.SerializeObject(
-                        TrackedResources, new JsonSerializerSettings()
-                        {
-                            Formatting = Formatting.Indented,
-                            Converters = new List<JsonConverter>
-                            {
-                            new TechTypeConverter()
-                            }
-                        })
-                    );
-                writer.Flush();
-                writer.Close();
-            }
-            catch
-            {
-                writer.Close();
-            }
-        }
-
+        
         public void OnProtoDeserialize(ProtobufSerializer serializer)
         {
-            LoadCache();
             var CurrentScanFilePath = Path.Combine(SaveUtils.GetCurrentSaveDataDir(), $"{gameObject.GetComponent<PrefabIdentifier>().id}.json");
-            if(File.Exists(CurrentScanFilePath))
+            if (!File.Exists(CurrentScanFilePath)) return;
+            var reader = new StreamReader(CurrentScanFilePath);
+            try
             {
-                var reader = new StreamReader(CurrentScanFilePath);
-                try
-                {
-                    MapRoomFunctionality.typeToScan = JsonConvert.DeserializeObject<TechType>(
-                        reader.ReadToEnd(),
-                        new JsonSerializerSettings()
+                MapRoomFunctionality.typeToScan = JsonConvert.DeserializeObject<TechType>(
+                    reader.ReadToEnd(),
+                    new JsonSerializerSettings()
+                    {
+                        Formatting = Formatting.Indented,
+                        Converters = new List<JsonConverter>
                         {
-                            Formatting = Formatting.Indented,
-                            Converters = new List<JsonConverter>
-                                {
-                                new TechTypeConverter()
-                                }
+                            new EntryPoint.TechTypeConverter()
                         }
-                        );
-                    reader.Close();
-                }
-                catch
-                {
-                    reader.Close();
-                }
+                    }
+                );
+                reader.Close();
+            }
+            catch
+            {
+                reader.Close();
             }
         }
 
-        public void LoadCache()
-        {
-            string CacheFilePath = Path.Combine(SaveUtils.GetCurrentSaveDataDir(), "FoundScanTypes.json");
-            if(File.Exists(CacheFilePath))
-            {
-                var reader = new StreamReader(CacheFilePath);
-                try
-                {
-                    TrackedResources = JsonConvert.DeserializeObject<List<TechType>>(
-                        reader.ReadToEnd(),
-                        new JsonSerializerSettings()
-                        {
-                            Formatting = Formatting.Indented,
-                            Converters = new List<JsonConverter>
-                                {
-                                new TechTypeConverter()
-                                }
-                        }
-                        );
-                    reader.Close();
-                }
-                catch
-                {
-                    reader.Close();
-                }
-            }
-        }
-
-        public class TechTypeConverter: JsonConverter
-        {
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                serializer.Serialize(writer, ((TechType)value).AsString());
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                string v = (string)serializer.Deserialize(reader, typeof(string));
-                if(TechTypeExtensions.FromString(v, out TechType techType, true))
-                    return techType;
-                else
-                    return TechTypeHandler.TryGetModdedTechType(v, out techType)
-                        ? (object)techType
-                        : throw new Exception($"Failed to parse {v} into a Techtype");
-            }
-
-            public override bool CanConvert(Type objectType) => objectType == typeof(TechType);
-        }
 #endif
-    }
+        }
 }
