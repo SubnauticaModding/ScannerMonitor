@@ -2,9 +2,7 @@
   "dependencies": {
     "com.passivepicasso.thunderkit": "https://github.com/PassivePicasso/ThunderKit.git",
     "com.unity.assetbundlebrowser": "1.7.0",
-    "com.unity.ide.rider": "1.1.0",
     "com.unity.package-manager-ui": "2.2.0",
-    "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -39,7 +37,7 @@
   },
   "lock": {
     "com.passivepicasso.thunderkit": {
-      "hash": "ab95d9203418da765cf639b8f53d19fb510b1401",
+      "hash": "26097cc7eef1255a04f96fd9cba23b03ba342cb5",
       "revision": "HEAD"
     }
   }

@@ -1,22 +1,14 @@
-﻿using System;
-
-#if !UNITY_EDITOR
+﻿#if !UNITY_EDITOR
 namespace ScannerMonitor.Patches
 {
+    using System;
     using HarmonyLib;
     using UnityEngine;
     using System.Collections.Generic;
     using System.IO;
     using SMLHelper.V2.Utility;
-#if SN1
-    using ResourceTrackerDatabase = ResourceTracker;
-#endif
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-#else
     using Newtonsoft.Json;
-#endif
-
+    using FMOD.Studio;
 
     [HarmonyPatch]
     public static class Patches
@@ -32,11 +24,9 @@ namespace ScannerMonitor.Patches
             return false;
         }
 
-#if SN1
         private static void Start(MapRoomFunctionality mapRoomFunctionality)
         {
             mapRoomFunctionality.wireFrameWorld.rotation = Quaternion.identity;
-            mapRoomFunctionality.ReloadMapWorld();
             if(mapRoomFunctionality.typeToScan != TechType.None)
             {
                 double num = mapRoomFunctionality.timeLastScan;
@@ -45,89 +35,26 @@ namespace ScannerMonitor.Patches
                 mapRoomFunctionality.timeLastScan = num;
                 mapRoomFunctionality.numNodesScanned = num2;
             }
-            ResourceTracker.onResourceDiscovered += mapRoomFunctionality.OnResourceDiscovered;
-            ResourceTracker.onResourceRemoved += mapRoomFunctionality.OnResourceRemoved;
-            mapRoomFunctionality.matInstance = Object.Instantiate(mapRoomFunctionality.mat);
-            mapRoomFunctionality.matInstance.SetFloat(ShaderPropertyID._ScanIntensity, 0f);
-            mapRoomFunctionality.matInstance.SetVector(ShaderPropertyID._MapCenterWorldPos, mapRoomFunctionality.transform.position);
+            ResourceTrackerDatabase.onResourceDiscovered += mapRoomFunctionality.OnResourceDiscovered;
+            ResourceTrackerDatabase.onResourceRemoved += mapRoomFunctionality.OnResourceRemoved;
             MapRoomFunctionality.mapRooms.Add(mapRoomFunctionality);
             mapRoomFunctionality.Subscribe(true);
-            mapRoomFunctionality.powerRelay = mapRoomFunctionality.GetComponentInParent<PowerRelay>();
-            bool flag;
-            if(mapRoomFunctionality.powerRelay)
+            mapRoomFunctionality.powerConsumer = mapRoomFunctionality.gameObject.EnsureComponent<PowerConsumer>();
+            if(mapRoomFunctionality.powerConsumer)
             {
-                flag = !GameModeUtils.RequiresPower() || mapRoomFunctionality.powerRelay.IsPowered();
-                mapRoomFunctionality.prevPowerRelayState = flag;
-                mapRoomFunctionality.forcePoweredIfNoRelay = false;
+                mapRoomFunctionality.powered = !GameModeUtils.RequiresPower() || mapRoomFunctionality.powerConsumer.IsPowered();
             }
             else
             {
-                flag = true;
-                mapRoomFunctionality.prevPowerRelayState = true;
-                mapRoomFunctionality.forcePoweredIfNoRelay = true;
+                mapRoomFunctionality.powered = true;
             }
-            mapRoomFunctionality.screenRoot.SetActive(flag);
-            mapRoomFunctionality.hologramRoot.SetActive(flag);
-            if(flag)
-            {
-                mapRoomFunctionality.ambientSound.Play();
-            }
-        }
-#elif BZ
-        private static void Start(MapRoomFunctionality mapRoomFunctionality)
-        {
-            mapRoomFunctionality.wireFrameWorld.rotation = Quaternion.identity;
-            mapRoomFunctionality.ReloadMapWorld();
-            if(mapRoomFunctionality.typeToScan != TechType.None)
-            {
-                double num = mapRoomFunctionality.timeLastScan;
-                int num2 = mapRoomFunctionality.numNodesScanned;
-                mapRoomFunctionality.StartScanning(mapRoomFunctionality.typeToScan);
-                mapRoomFunctionality.timeLastScan = num;
-                mapRoomFunctionality.numNodesScanned = num2;
-            }
-
-            ResourceTrackerDatabase.onResourceDiscovered += mapRoomFunctionality.OnResourceDiscovered;
-            ResourceTrackerDatabase.onResourceRemoved += mapRoomFunctionality.OnResourceRemoved;
-            mapRoomFunctionality.matInstance = UnityEngine.Object.Instantiate<Material>(mapRoomFunctionality.mat);
-            mapRoomFunctionality.matInstance.SetFloat(ShaderPropertyID._ScanIntensity, 0f);
-            mapRoomFunctionality.matInstance.SetFloat(ShaderPropertyID._ScanFrequency, 0f);
-            mapRoomFunctionality.matInstance.SetVector(ShaderPropertyID._MapCenterWorldPos,
-                mapRoomFunctionality.transform.position);
-            MapRoomFunctionality.mapRooms.Add(mapRoomFunctionality);
-            mapRoomFunctionality.Subscribe(true);
-            mapRoomFunctionality.powered = (!GameModeUtils.RequiresPower() || mapRoomFunctionality.powerConsumer.IsPowered());
             mapRoomFunctionality.screenRoot.SetActive(mapRoomFunctionality.powered);
-            mapRoomFunctionality.hologramRoot.SetActive(mapRoomFunctionality.powered);
             if(mapRoomFunctionality.powered)
             {
                 mapRoomFunctionality.ambientSound.Play();
             }
-        }
-#endif
-        
-#if SN1
-        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.GetScanRange))]
-        [HarmonyPrefix]
-        public static bool MapRoomFunctionality_GetScanRange_Prefix(MapRoomFunctionality __instance, ref float __result)
-        {
-            if(!__instance.gameObject.name.Contains("ScannerMonitor"))
-                return true;
-            
-            __result = 300f + (__instance.storageContainer.container.GetCount(TechType.MapRoomUpgradeScanRange) * 50f);
-            return false;
-        }
-        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.GetScanInterval))]
-        [HarmonyPrefix]
-        public static bool MapRoomFunctionality_GetScanInterval_Prefix(MapRoomFunctionality __instance, ref float __result)
-        {
-            if(!__instance.gameObject.name.Contains("ScannerMonitor"))
-                return true;
+        }        
 
-            __result = Mathf.Max(0.1f, 14f - (__instance.storageContainer.container.GetCount(TechType.MapRoomUpgradeScanSpeed) * 3f));
-            return false;
-        }
-#elif BZ
         [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.UpdateScanRangeAndInterval))]
         [HarmonyPrefix]
         public static bool MapRoomFunctionality_UpdateScanRangeAndInterval_Prefix(MapRoomFunctionality __instance)
@@ -146,7 +73,89 @@ namespace ScannerMonitor.Patches
 
             return false;
         }
-#endif
+
+        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.UpdateScanning))]
+        [HarmonyPrefix]
+        public static bool MapRoomFunctionality_UpdateScanning_Prefix(MapRoomFunctionality __instance)
+        {
+            if(!__instance.gameObject.name.Contains("ScannerMonitor"))
+                return true;
+
+            DayNightCycle main = DayNightCycle.main;
+            if(!main)
+            {
+                return true;
+            }
+            double timePassed = main.timePassed;
+            if(__instance.timeLastScan + (double)__instance.scanInterval <= timePassed && __instance.powered)
+            {
+                __instance.timeLastScan = timePassed;
+                __instance.UpdateBlips();
+                __instance.UpdateCameraBlips();
+                float num = __instance.scanRange * __instance.mapScale;
+                if(__instance.prevFadeRadius != num)
+                {
+                    __instance.prevFadeRadius = num;
+                }
+            }
+            if(__instance.scanActive != __instance.prevScanActive || __instance.scanInterval != __instance.prevScanInterval)
+            {
+                float num2 = 1f / __instance.scanInterval;
+                __instance.prevScanActive = __instance.scanActive;
+                __instance.prevScanInterval = __instance.scanInterval;
+            }
+            if(__instance.powered && __instance.timeLastPowerDrain + 1f < Time.time)
+            {
+                float num3;
+                __instance.powerConsumer.ConsumePower(__instance.scanActive ? 0.5f : 0.15f, out num3);
+                __instance.timeLastPowerDrain = Time.time;
+            }
+            return false;
+        }
+
+        [HarmonyPatch(typeof(MapRoomFunctionality), nameof(MapRoomFunctionality.Update))]
+        [HarmonyPrefix]
+        public static bool MapRoomFunctionality_Update_Prefix(MapRoomFunctionality __instance)
+        {
+            if(!__instance.gameObject.name.Contains("ScannerMonitor"))
+                return true;
+
+
+            bool flag = __instance.powered;
+            __instance.powered = __instance.powerConsumer.IsPowered();
+            if(__instance.powered != flag)
+            {
+                if(__instance.powered)
+                {
+                    OnPowerUp(__instance);
+                }
+                else
+                {
+                   OnPowerDown(__instance);
+                }
+            }
+            if(__instance.containerIsDirty)
+            {
+                __instance.UpdateScanRangeAndInterval();
+                __instance.containerIsDirty = false;
+            }
+            __instance.UpdateScanning();
+            //__instance.scannerCullable.SetActive(__instance.playerDistanceTracker.playerNearby);
+            return false;
+        }
+
+        private static void OnPowerDown(MapRoomFunctionality instance)
+        {
+            instance.screenRoot.SetActive(false);
+            instance.ambientSound.Stop(STOP_MODE.ALLOWFADEOUT);
+        }
+
+        private static void OnPowerUp(MapRoomFunctionality instance)
+        {
+            instance.screenRoot.SetActive(true);
+            instance.timeLastScan = 0.0;
+            instance.ambientSound.Play();
+        }
 
         [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
         [HarmonyPostfix]
@@ -166,7 +175,7 @@ namespace ScannerMonitor.Patches
                         Formatting = Formatting.Indented,
                         Converters = new List<JsonConverter>
                         {
-                            new EntryPoint.TechTypeConverter()
+                            new Main.TechTypeConverter()
                         }
                     }
                 );
@@ -188,7 +197,7 @@ namespace ScannerMonitor.Patches
         [HarmonyPrefix]
         public static void Builder_CreateGhost_Prefix()
         {
-            if(Builder.prefab is null || Builder.ghostModel is null || CraftData.GetTechType(Builder.prefab) != EntryPoint.ScannerMonitorTechType)
+            if(Builder.prefab is null || Builder.ghostModel is null || CraftData.GetTechType(Builder.prefab) != Main.ScannerMonitorTechType)
                 return;
 
 
@@ -196,7 +205,7 @@ namespace ScannerMonitor.Patches
             {
                 if (Builder.prefab.transform.localScale.x >= 2.65f) return;
                 Builder.prefab.transform.localScale *= 1.01f;
-                Object.DestroyImmediate(Builder.ghostModel);
+                GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
             }
 
@@ -204,14 +213,14 @@ namespace ScannerMonitor.Patches
             {
                 if (Builder.prefab.transform.localScale.x <= 0.5f) return;
                 Builder.prefab.transform.localScale *= 0.99f;
-                Object.DestroyImmediate(Builder.ghostModel);
+                GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
             }
 
             if(GameInput.GetButtonDown(GameInput.Button.Deconstruct))
             {
                 Builder.prefab.transform.localScale = Vector3.one;
-                Object.DestroyImmediate(Builder.ghostModel);
+                GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
             }
 

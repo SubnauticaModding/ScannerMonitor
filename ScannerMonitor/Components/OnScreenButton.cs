@@ -26,11 +26,7 @@
             if (IsHovered && inInteractionRange)
             {
 #if !UNITY_EDITOR
-#if SN1
-                HandReticle.main?.SetInteractTextRaw(HoverText, "");
-#elif BZ
                 HandReticle.main?.SetTextRaw(HandReticle.TextType.Hand, HoverText);
-#endif
 #else
                 Debug.Log(HoverText);
 #endif

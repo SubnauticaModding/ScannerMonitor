@@ -10,15 +10,7 @@
     using System.IO;
     using System.Linq;
     using Random = UnityEngine.Random;
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-#else
     using Newtonsoft.Json;
-#endif
-#if SN1
-    using ResourceTrackerDatabase = ResourceTracker;
-#endif
-
 #endif
 
     /**
@@ -380,7 +372,7 @@
                             Formatting = Formatting.Indented,
                             Converters = new List<JsonConverter>
                             {
-                            new EntryPoint.TechTypeConverter()
+                            new Main.TechTypeConverter()
                             }
                         })
                     );
@@ -407,7 +399,7 @@
                         Formatting = Formatting.Indented,
                         Converters = new List<JsonConverter>
                         {
-                            new EntryPoint.TechTypeConverter()
+                            new Main.TechTypeConverter()
                         }
                     }
                 );

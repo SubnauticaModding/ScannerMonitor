@@ -4,34 +4,32 @@ namespace ScannerMonitor
     using System;
     using HarmonyLib;
     using System.IO;
-    using QModManager.API.ModLoading;
     using Game_Items;
     using SMLHelper.V2.Utility;
     using System.Collections.Generic;
     using SMLHelper.V2.Handlers;
     using System.Globalization;
-
-#if SN1
-    using ResourceTrackerDatabase = ResourceTracker;
-#endif
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-#else
     using Newtonsoft.Json;
-#endif
+    using BepInEx;
 
-
-    [QModCore]
-    public static class EntryPoint
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
+        #region[Declarations]
+        public const string
+            MODNAME = "ScannerMonitor",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+        #endregion
         public static TechType ScannerMonitorTechType { get; private set; }
-        [QModPatch]
-        public static void Entry()
+        
+        public void Awake()
         {
             var scannerMonitor = new ScannerMonitor();
             scannerMonitor.Patch();
             ScannerMonitorTechType = scannerMonitor.TechType;
-            Harmony.CreateAndPatchAll(typeof(Patches.Patches), "MrPurple6411.ScannerMonitor");
+            Harmony.CreateAndPatchAll(typeof(Patches.Patches), GUID);
             IngameMenuHandler.RegisterOnSaveEvent(SaveCache);
 
         }
