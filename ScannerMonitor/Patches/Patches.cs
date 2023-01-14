@@ -6,7 +6,7 @@ namespace ScannerMonitor.Patches
     using UnityEngine;
     using System.Collections.Generic;
     using System.IO;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Utility;
     using Newtonsoft.Json;
     using FMOD.Studio;
 
@@ -104,10 +104,9 @@ namespace ScannerMonitor.Patches
                 __instance.prevScanActive = __instance.scanActive;
                 __instance.prevScanInterval = __instance.scanInterval;
             }
-            if(__instance.powered && __instance.timeLastPowerDrain + 1f < Time.time)
+            if(__instance.typeToScan != TechType.None && __instance.powered && __instance.timeLastPowerDrain + 1f < Time.time)
             {
-                float num3;
-                __instance.powerConsumer.ConsumePower(__instance.scanActive ? 0.5f : 0.15f, out num3);
+                __instance.powerConsumer.ConsumePower(0.05f, out _);
                 __instance.timeLastPowerDrain = Time.time;
             }
             return false;
@@ -203,7 +202,8 @@ namespace ScannerMonitor.Patches
 
             if(GameInput.GetButtonDown(GameInput.Button.CyclePrev) || GameInput.GetButtonHeld(GameInput.Button.CyclePrev))
             {
-                if (Builder.prefab.transform.localScale.x >= 2.65f) return;
+                if(Builder.prefab.transform.localScale.x >= 2.65f)
+                    return;
                 Builder.prefab.transform.localScale *= 1.01f;
                 GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
@@ -211,13 +211,14 @@ namespace ScannerMonitor.Patches
 
             if(GameInput.GetButtonDown(GameInput.Button.CycleNext) || GameInput.GetButtonHeld(GameInput.Button.CycleNext))
             {
-                if (Builder.prefab.transform.localScale.x <= 0.5f) return;
+                if(Builder.prefab.transform.localScale.x <= 0.5f)
+                    return;
                 Builder.prefab.transform.localScale *= 0.99f;
                 GameObject.DestroyImmediate(Builder.ghostModel);
                 return;
             }
 
-            if(GameInput.GetButtonDown(GameInput.Button.Deconstruct))
+            if(GameInput.GetButtonDown(GameInput.Button.AltTool))
             {
                 Builder.prefab.transform.localScale = Vector3.one;
                 GameObject.DestroyImmediate(Builder.ghostModel);
@@ -225,21 +226,39 @@ namespace ScannerMonitor.Patches
             }
 
 
-            var device = GameInput.GetPrimaryDevice();
-            var msg1 = $"Press {GameInput.GetBinding(device, GameInput.Button.CyclePrev, GameInput.BindingSet.Primary)} to Enlarge Monitor";
-            var msg2 = $"Press {GameInput.GetBinding(device,GameInput.Button.CycleNext, GameInput.BindingSet.Primary)} to Shrink Monitor";
-            var msg3 = $"Press {GameInput.GetBinding(device, GameInput.Button.Deconstruct, GameInput.BindingSet.Primary)} to Reset Monitor Size";
-            ErrorMessage._Message errorMessage = ErrorMessage.main.GetExistingMessage(msg1);
-            ErrorMessage._Message errorMessage2 = ErrorMessage.main.GetExistingMessage(msg2);
-            ErrorMessage._Message errorMessage3 = ErrorMessage.main.GetExistingMessage(msg3);
 
-            ProcessMsg(errorMessage, msg1);
-            ProcessMsg(errorMessage2, msg2);
-            ProcessMsg(errorMessage3, msg3);
+            GameInput.Device device = GameInput.GetPrimaryDevice();
+            TryDisplayMessage(device, GameInput.Button.CyclePrev, "Press {0} to Enlarge Monitor");
+            TryDisplayMessage(device, GameInput.Button.CycleNext, "Press {0} to Shrink Monitor");
+            TryDisplayMessage(device, GameInput.Button.AltTool, "Press {0} to Reset Monitor Size");
         }
 
-        private static void ProcessMsg(ErrorMessage._Message errorMessage, string msg)
+        private static bool TryDisplayMessage(GameInput.Device device, GameInput.Button button, string msg)
         {
+            if(string.IsNullOrWhiteSpace(msg))
+            {
+                return false;
+            }
+
+            string primaryBinding = GameInput.GetBinding(device, button, GameInput.BindingSet.Primary);
+            string secondaryBinding = GameInput.GetBinding(device, button, GameInput.BindingSet.Secondary);
+            bool primaryIsValid = string.IsNullOrWhiteSpace(primaryBinding);
+            bool secondaryIsValid = string.IsNullOrWhiteSpace(secondaryBinding);
+
+            if(!primaryIsValid && !secondaryIsValid)
+            {
+                return false;
+            }
+
+            string enlarge = !primaryIsValid && !secondaryIsValid ? $"{primaryBinding} or {secondaryBinding}" : primaryIsValid ? primaryBinding : secondaryBinding;
+            string formatted = string.Format(msg, enlarge);
+            ProcessMsg(formatted);
+            return true;
+        }
+
+        private static void ProcessMsg(string msg)
+        {
+            ErrorMessage._Message errorMessage = ErrorMessage.main.GetExistingMessage(msg);
             if (errorMessage != null)
             {
                 errorMessage.messageText = msg;

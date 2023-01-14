@@ -5,9 +5,9 @@ namespace ScannerMonitor
     using HarmonyLib;
     using System.IO;
     using Game_Items;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Utility;
     using System.Collections.Generic;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using System.Globalization;
     using Newtonsoft.Json;
     using BepInEx;

@@ -7,18 +7,18 @@
     /**
      * Component that will be added onto the paginator buttons. Gives the hover effect and clicking function.
      */
-    public class PaginatorButton : OnScreenButton, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+    public class PaginatorButton : OnScreenButton
     {
         public int AmountToChangePageBy = 1;
         public Text text;
 
-        public void Start()
+        public override void Start()
         {
             text = GetComponent<Text>();
             HoverText = text.text;
         }
 
-        public void OnEnable()
+        public override void OnEnable()
         {
             if (text != null)
             {
@@ -50,12 +50,14 @@
             text.color = Color.white;
         }
 
-        public override void OnPointerClick(PointerEventData eventData)
+        public override void OnPointerDown(PointerEventData eventData)
         {
-            base.OnPointerClick(eventData);
+            base.OnPointerDown(eventData);
             if (IsHovered)
             {
+#if !UNITY_EDITOR
                 ScannerMonitorDisplay.ChangePageBy(AmountToChangePageBy);
+#endif
             }
         }
     }

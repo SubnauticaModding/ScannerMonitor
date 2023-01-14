@@ -2,18 +2,19 @@
 {
     using UnityEngine;
     using UnityEngine.EventSystems;
+    using UnityEngine.UI;
 
     /**
      * Component that buttons on the resource monitor will inherit from. Handles working on whether something is hovered via IsHovered as well as interaction text.
      */
-    public abstract class OnScreenButton : MonoBehaviour
+    public abstract class OnScreenButton : Selectable
     {
         public ScannerMonitorDisplay ScannerMonitorDisplay;
         protected bool IsHovered;
         protected string HoverText;
         public bool isHoveredOutOfRange;
 
-        public virtual void OnDisable()
+        public override void OnDisable()
         {
             IsHovered = false;
             isHoveredOutOfRange = false;
@@ -43,27 +44,36 @@
             }
         }
 
-        public virtual void OnPointerEnter(PointerEventData eventData)
+        public override void OnPointerEnter(PointerEventData eventData)
         {
+            ErrorMessage.AddMessage($"OnPointerEnter!");
             if (InInteractionRange())
             {
                 IsHovered = true;
             }
 
             isHoveredOutOfRange = true;
+#if !UNITY_EDITOR
             ScannerMonitorDisplay.ResetIdleTimer();
+#endif
         }
 
-        public virtual void OnPointerExit(PointerEventData eventData)
+        public override void OnPointerExit(PointerEventData eventData)
         {
+            ErrorMessage.AddMessage($"OnPointerExit!");
             IsHovered = false;
             isHoveredOutOfRange = false;
+#if !UNITY_EDITOR
             ScannerMonitorDisplay.ResetIdleTimer();
+#endif
         }
 
-        public virtual void OnPointerClick(PointerEventData eventData)
+        public override void OnPointerDown(PointerEventData eventData)
         {
+            ErrorMessage.AddMessage($"OnPointerDown!");
+#if !UNITY_EDITOR
             ScannerMonitorDisplay.ResetIdleTimer();
+#endif
         }
 
         protected bool InInteractionRange()

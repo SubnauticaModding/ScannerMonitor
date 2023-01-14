@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 #if !UNITY_EDITOR
     using UnityEngine.EventSystems;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Utility;
     using System.Collections;
     using System.IO;
     using System.Linq;
@@ -26,7 +26,7 @@
     {
         public static readonly float WELCOME_ANIMATION_TIME = 8.5f;
         public static readonly float MAIN_SCREEN_ANIMATION_TIME = 1.2f;
-        public int ITEMS_PER_PAGE => Mathf.RoundToInt(6 * MapRoomFunctionality.transform.localScale.x);
+        public int ITEMS_PER_PAGE => 12;
         
         public Dictionary<TechType, GameObject> trackedResourcesDisplayElements;
         public MapRoomFunctionality MapRoomFunctionality;
@@ -47,8 +47,8 @@
         };
         public Color currentColor;
         public Color nextColor;
-        public bool isHovered;
-        public bool isHoveredOutOfRange;
+        public bool isHovered = false;
+        public bool isHoveredOutOfRange = false;
 
         public Vector3 lastScale = Vector3.zero;
 
@@ -189,7 +189,8 @@
         public void UpdatePaginator()
         {
             CalculateNewMaxPages();
-            pageCounterText.text = $"Page {currentPage} Of {maxPage}";
+            pageCounterGameObject.SetActive(maxPage > 1);
+            pageCounterText.text = $"Page {currentPage} of {maxPage}";
             previousPageGameObject.SetActive(currentPage != 1);
             nextPageGameObject.SetActive(currentPage != maxPage);
         }
@@ -227,17 +228,17 @@
                 DrawPage(0);
             }
 
-            if (isIdle == false && timeSinceLastInteraction < idlePeriodLength)
+            if (!isIdle && timeSinceLastInteraction < idlePeriodLength)
             {
                 timeSinceLastInteraction += Time.deltaTime;
             }
 
-            if (isIdle == false && timeSinceLastInteraction >= idlePeriodLength)
+            if (!isIdle && timeSinceLastInteraction >= idlePeriodLength)
             {
                 EnterIdleScreen();
             }
 
-            if (isHovered == false && isHoveredOutOfRange && InIdleInteractionRange())
+            if (!isHovered && isHoveredOutOfRange && InIdleInteractionRange())
             {
                 isHovered = true;
                 ExitIdleScreen();
@@ -277,12 +278,13 @@
         
         public void OnPointerClick(PointerEventData eventData)
         {
+            ErrorMessage.AddMessage($"OnPointerClick!");
             if (isIdle && InIdleInteractionRange())
             {
                 ExitIdleScreen();
             }
             
-            if (isIdle == false)
+            if (!isIdle)
             {
                 ResetIdleTimer();
             }
@@ -290,6 +292,7 @@
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            ErrorMessage.AddMessage($"OnPointerEnter!");
             isHoveredOutOfRange = true;
             if (InIdleInteractionRange())
             {
@@ -301,7 +304,7 @@
                 ExitIdleScreen();
             }
 
-            if (isIdle == false)
+            if (!isIdle)
             {
                 ResetIdleTimer();
             }
@@ -309,6 +312,7 @@
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            ErrorMessage.AddMessage($"OnPointerExit!");
             isHoveredOutOfRange = false;
             isHovered = false;
             if (isIdle && InIdleInteractionRange())
@@ -347,6 +351,7 @@
         public void ResetIdleTimer()
         {
             timeSinceLastInteraction = 0f;
+            DrawPage(currentPage);
         }
 
         public void CalculateNewColourTransitionTime()

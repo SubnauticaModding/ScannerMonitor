@@ -7,13 +7,13 @@
     /**
      * Component that will be added onto the item button.
      */
-    public class ItemButton : OnScreenButton, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class ItemButton : OnScreenButton
     {
         public TechType type = TechType.None;
         public RawImage rawImage;
         public MapRoomFunctionality mapRoomFunctionality;
 
-        public void Awake()
+        public override void Awake()
         {
             rawImage = GetComponent<RawImage>();
             rawImage.color = new Color(0.07843138f, 0.3843137f, 0.7058824f);
@@ -42,9 +42,10 @@
 
         }
 
-        public override void OnPointerClick(PointerEventData eventData)
+        public override void OnPointerDown(PointerEventData eventData)
         {
-            base.OnPointerClick(eventData);
+            base.OnPointerDown(eventData);
+            ErrorMessage.AddMessage($"OnPointerDown! {IsHovered}, {mapRoomFunctionality}, {type}");
             if (IsHovered && mapRoomFunctionality != null && type != TechType.None)
             {
                 if(mapRoomFunctionality.typeToScan == type)
@@ -60,6 +61,7 @@
         public override void OnPointerEnter(PointerEventData eventData)
         {
             base.OnPointerEnter(eventData);
+            ErrorMessage.AddMessage($"OnPointerEnter! {IsHovered}, {mapRoomFunctionality}, {type}");
             if (IsHovered)
                 rawImage.color = new Color(0.07843137f, 0.1459579f, 0.7058824f);
         }
@@ -67,6 +69,7 @@
         public override void OnPointerExit(PointerEventData eventData)
         {
             base.OnPointerExit(eventData);
+            ErrorMessage.AddMessage($"OnPointerExit! {IsHovered}, {mapRoomFunctionality}, {type}");
             if(mapRoomFunctionality.typeToScan != type)
                 rawImage.color = new Color(0.07843138f, 0.3843137f, 0.7058824f);
         }

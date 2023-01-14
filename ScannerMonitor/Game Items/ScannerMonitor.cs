@@ -3,14 +3,14 @@ namespace ScannerMonitor.Game_Items
 {
     using System.Collections.Generic;
     using System.IO;
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Handlers;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Assets;
+    using SMLHelper.Crafting;
+    using SMLHelper.Handlers;
+    using SMLHelper.Utility;
     using UnityEngine;
     using System.Reflection;
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 
