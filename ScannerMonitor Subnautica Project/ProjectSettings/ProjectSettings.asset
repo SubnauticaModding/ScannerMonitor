@@ -594,7 +594,7 @@ PlayerSettings:
     1: thunderkit;subnautica
     7: thunderkit;subnautica
     13: thunderkit;subnautica
-    14: thunderkit
+    14: thunderkit;subnautica
     19: thunderkit;subnautica
     21: thunderkit;subnautica
     25: thunderkit;subnautica
@@ -602,9 +602,9 @@ PlayerSettings:
     27: thunderkit;subnautica
     28: thunderkit;subnautica
     29: thunderkit;subnautica
-    30: thunderkit
-    32: thunderkit
-    33: thunderkit
+    30: thunderkit;subnautica
+    32: thunderkit;subnautica
+    33: thunderkit;subnautica
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
