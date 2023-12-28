@@ -1,0 +1,117 @@
+ManifestFileVersion: 0
+CRC: 1612283000
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 75bf08c1501cb3057f0c022e0a3644d3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 733f1eb9d9d3ef6e63d21ea4c4cc91cb
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 708705254, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: 1489221901, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: 539949004, guid: cee17075e57114942b11322cc86e9c72, type: 3}
+- Class: 114
+  Script: {fileID: 1980459831, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: 1453722849, guid: 67dfb1fdfb2b407222eda8e23ac8b724, type: 3}
+- Class: 114
+  Script: {fileID: 1327945023, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: 2085637444, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: 51780562, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: 1077351063, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: 1383695799, guid: cee17075e57114942b11322cc86e9c72, type: 3}
+- Class: 114
+  Script: {fileID: 1916260824, guid: cee17075e57114942b11322cc86e9c72, type: 3}
+- Class: 114
+  Script: {fileID: 146425932, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -1610353820, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -578373017, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -1699601541, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -285083208, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -1967916163, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -664601876, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -998919875, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -1536540201, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -824916445, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+- Class: 114
+  Script: {fileID: -619905303, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: -2095666955, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: -900027084, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: -98529514, guid: d3e719b59ab71ba3f6b398058c866280, type: 3}
+- Class: 114
+  Script: {fileID: -1824715710, guid: a6a460bc9cda68a8c89553f1ec5be757, type: 3}
+- Class: 114
+  Script: {fileID: 1892026953, guid: a6a460bc9cda68a8c89553f1ec5be757, type: 3}
+- Class: 114
+  Script: {fileID: -1300030820, guid: a6a460bc9cda68a8c89553f1ec5be757, type: 3}
+- Class: 114
+  Script: {fileID: -907550668, guid: 67dfb1fdfb2b407222eda8e23ac8b724, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/ScannerMonitor/prefabs/ScannerMonitorModel.prefab
+Dependencies: []

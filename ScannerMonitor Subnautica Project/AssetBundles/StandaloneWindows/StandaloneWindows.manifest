@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 410728844
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: scannermonitor
+      Dependencies: {}

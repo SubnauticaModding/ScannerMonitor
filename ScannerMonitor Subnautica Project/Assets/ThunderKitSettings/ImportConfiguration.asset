@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8680713667402151509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37efc65505c0b84fae0add0366706b6, type: 3}
+  m_Name: Install BepInEx
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &-8070686565254167856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb24ae4d588a7b4fbc1757e2fb5fd78, type: 3}
+  m_Name: Import Addressable Catalog
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &-6775293273011892460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcb1359c6da7c049b1063e3561a1ecf, type: 3}
+  m_Name: Check Unity Version
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &-6113820646300086883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e66fd1b2f0a6b4e951af502eba5a2b, type: 3}
+  m_Name: Create Game Package
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &-4635492238544560089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787b4254ce33ccd42b78ce45443af2ff, type: 3}
+  m_Name: TextMeshPro Uninstaller
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &-4203729553233185522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208b77589c09e314aa3dbfae9117393a, type: 3}
+  m_Name: Disable Assembly Updater
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc02a62d93c1105498092e320b2f0f46, type: 3}
+  m_Name: ImportConfiguration
+  m_EditorClassIdentifier: 
+  ConfigurationExecutors:
+  - {fileID: -6775293273011892460}
+  - {fileID: -4203729553233185522}
+  - {fileID: -4635492238544560089}
+  - {fileID: 2507517594609985795}
+  - {fileID: 6846474962789558254}
+  - {fileID: 3819439621386403770}
+  - {fileID: 4216088988971876889}
+  - {fileID: -6113820646300086883}
+  - {fileID: -8070686565254167856}
+  - {fileID: -8680713667402151509}
+  - {fileID: 5196927791691463372}
+  - {fileID: 1721246603647096809}
+  - {fileID: 2405832835563117222}
+  configurationIndex: 13
+  totalImportExtensionCount: 13
+--- !u!114 &1721246603647096809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf0398e0ff60b641a1c9a78c649cbae, type: 3}
+  m_Name: Beep
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &2405832835563117222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52610fcf3c7c01e43ad95185897e1eb5, type: 3}
+  m_Name: Prompt Restart
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &2507517594609985795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596b128cb3c6dd84da4b09a20d68dcab, type: 3}
+  m_Name: Unity GUI Uninstaller
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &3819439621386403770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87a9f1780c348d4080afaf9971d3a7e, type: 3}
+  m_Name: Import Assemblies
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &4216088988971876889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40885578be10f4785f1fa347e9fefa, type: 3}
+  m_Name: Import Project Settings
+  m_EditorClassIdentifier: 
+  enabled: 1
+  IncludedSettings: 0
+--- !u!114 &5196927791691463372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8840720793112784295b7c9b06af7493, type: 3}
+  m_Name: Get Bitness
+  m_EditorClassIdentifier: 
+  enabled: 1
+--- !u!114 &6846474962789558254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ba6c72d0c8e0842aff16cf42f174f1, type: 3}
+  m_Name: Assembly Publicizer
+  m_EditorClassIdentifier: 
+  enabled: 1
+  assemblyNames:
+  - Assembly-CSharp.dll
+  - Assembly-CSharp-firstpass.dll
+  NStripExecutable: {fileID: 102900000, guid: f3ca93c42be8f2847a9854a1a49f5d2b, type: 3}

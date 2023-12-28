@@ -1,64 +1,69 @@
-﻿#if !UNITY_EDITOR
+﻿#if !UNITY_EDITOR && (SUBNAUTICA || BELOWZERO)
 namespace ScannerMonitor.Game_Items
 {
     using System.Collections.Generic;
     using System.IO;
-    using SMLHelper.Assets;
-    using SMLHelper.Crafting;
-    using SMLHelper.Handlers;
-    using SMLHelper.Utility;
+    using Nautilus.Assets;
+    using Nautilus.Crafting;
+    using Nautilus.Handlers;
+    using Nautilus.Utility;
     using UnityEngine;
     using System.Reflection;
-#if SN1
-    using RecipeData = SMLHelper.Crafting.TechData;
+#if SUBNAUTICA
     using Sprite = Atlas.Sprite;
+    using UWE;
+    using static CraftData;
+    using Nautilus.Assets.Gadgets;
 #endif
 
-    public class ScannerMonitor : Buildable
+    public static class ScannerMonitor
     {
-        public override TechGroup GroupForPDA => TechGroup.InteriorModules;
-        public override TechCategory CategoryForPDA => TechCategory.InteriorModule;
+        public static TechType TechType { get; private set; }
 
-        public override TechType RequiredForUnlock => TechType.BaseMapRoom;
+        public static TechGroup GroupForPDA => TechGroup.InteriorModules;
+        public static TechCategory CategoryForPDA => TechCategory.InteriorModule;
+
+        public static TechType RequiredForUnlock => TechType.BaseMapRoom;
 
         private const string CLASS_ID = "ScannerMonitor";
-        private const string NICE_NAME = "Scanner Tracking Screen";
-        private const string DESCRIPTION = "Small Scale Scanner Module.";
+        private const string NICE_NAME = "Scanner Monitor";
+        private const string DESCRIPTION = "An advanced Scanner Room compressed into a smaller wall mounted screen.";
 
         private const string ASSET_BUNDLE_NAME =
-#if SN1
+#if SUBNAUTICA
             "scannermonitor";
-#elif BZ
+#else
             "scannermonitorbz";
 #endif
 
         private static readonly string modFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly string assetsFolderPath = Path.Combine(modFolderPath, "Assets");
-        private static readonly string assetBundlePath = Path.Combine(assetsFolderPath , ASSET_BUNDLE_NAME);
+        private static readonly string assetBundlePath = Path.Combine(assetsFolderPath, ASSET_BUNDLE_NAME);
         private static GameObject processedPrefab;
-        
-        private static readonly AssetBundle AssetBundle = AssetBundle.LoadFromFile(assetBundlePath);
-        public ScannerMonitor() : base(CLASS_ID, NICE_NAME, DESCRIPTION) { }
 
-        public override GameObject GetGameObject()
+        private static readonly AssetBundle AssetBundle = AssetBundle.LoadFromFile(assetBundlePath);
+
+        public static GameObject GetGameObject()
         {
-            if (processedPrefab is not null) return Object.Instantiate(processedPrefab);
-            
+            if (processedPrefab != null)
+                return processedPrefab;
+
             processedPrefab = AssetBundle.LoadAsset<GameObject>("ScannerMonitorModel");
             Shader MarmosetUBER = Shader.Find("MarmosetUBER");
             foreach (Renderer renderer in processedPrefab.GetComponentsInChildren<Renderer>())
                 renderer.material.shader = MarmosetUBER;
-            foreach(var uid in processedPrefab.GetComponentsInChildren<UniqueIdentifier>())
-                uid.classId = ClassID;
-            processedPrefab.GetComponent<Constructable>().techType = this.TechType;
-            processedPrefab.GetComponent<TechTag>().type = this.TechType;
-            
-            return Object.Instantiate(processedPrefab);
+            foreach (var uid in processedPrefab.GetComponentsInChildren<UniqueIdentifier>())
+                uid.classId = CLASS_ID;
+            processedPrefab.GetComponent<Constructable>().techType = TechType;
+            processedPrefab.SetActive(false);
+
+            return processedPrefab;
         }
 
-        protected override RecipeData GetBlueprintRecipe()
+        private static RecipeData GetBlueprintRecipe()
         {
-            TechType tech = TechTypeHandler.TryGetModdedTechType("Kit_BaseMapRoom", out TechType techType) ? techType : TechType.AdvancedWiringKit;
+            TechType tech = EnumHandler.TryGetValue("Kit_BaseMapRoom", out TechType techType) && techType != TechType.None ? techType : TechType.AdvancedWiringKit;
+
             if (tech != TechType.AdvancedWiringKit)
                 return new RecipeData()
                 {
@@ -69,15 +74,41 @@ namespace ScannerMonitor.Game_Items
                         new Ingredient(TechType.AdvancedWiringKit, 1)
                     }
                 };
-            RecipeData data = CraftDataHandler.GetTechData(TechType.BaseMapRoom);
+
+            RecipeData data = CraftDataHandler.GetRecipeData(TechType.BaseMapRoom);
             data.Ingredients.Add(new Ingredient(tech, 1));
 
             return data;
 
         }
-        protected override Sprite GetItemSprite()
+
+        private static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(assetsFolderPath, "ScannerMonitor.png"));
+        }
+
+        internal static void CreateAndRegister()
+        {
+            var info = PrefabInfo.WithTechType(CLASS_ID, NICE_NAME, DESCRIPTION, "English", false).WithIcon(GetItemSprite());
+            TechType = info.TechType;
+
+            var customPrefab = new CustomPrefab(info);
+
+            customPrefab.SetUnlock(RequiredForUnlock).WithPdaGroupCategory(GroupForPDA, CategoryForPDA);
+            customPrefab.AddGadget(new CraftingGadget(customPrefab, GetBlueprintRecipe()).WithCraftingTime(5f));
+            customPrefab.SetGameObject(GetGameObject());
+
+            customPrefab.Register();
+            
+            WorldEntityDatabaseHandler.AddCustomInfo(CLASS_ID, new WorldEntityInfo()
+            {
+                cellLevel = LargeWorldEntity.CellLevel.Global,
+                classId = CLASS_ID,
+                localScale = Vector3.one,
+                prefabZUp = true,
+                slotType = EntitySlot.Type.Small,
+                techType = TechType
+            });
         }
     }
 }

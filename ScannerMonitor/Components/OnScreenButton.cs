@@ -10,75 +10,68 @@
     public abstract class OnScreenButton : Selectable
     {
         public ScannerMonitorDisplay ScannerMonitorDisplay;
-        protected bool IsHovered;
         protected string HoverText;
-        public bool isHoveredOutOfRange;
+        public float distance;
 
-        public override void OnDisable()
-        {
-            IsHovered = false;
-            isHoveredOutOfRange = false;
-        }
+        public bool IsPointerInside { get; private set; }
+        public bool HasSelection { get; private set; }
 
         public virtual void Update()
         {
             var inInteractionRange = InInteractionRange();
 
-            if (IsHovered && inInteractionRange)
+            if (this.IsPointerInside && inInteractionRange)
             {
-#if !UNITY_EDITOR
+                ScannerMonitorDisplay.ResetIdleTimer();
                 HandReticle.main?.SetTextRaw(HandReticle.TextType.Hand, HoverText);
-#else
-                Debug.Log(HoverText);
-#endif
-            }
-
-            if (IsHovered && inInteractionRange == false)
-            {
-                IsHovered = false;
-            }
-
-            if (IsHovered == false && isHoveredOutOfRange && inInteractionRange)
-            {
-                IsHovered = true;
             }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            ErrorMessage.AddMessage($"OnPointerEnter!");
             if (InInteractionRange())
             {
-                IsHovered = true;
+                this.IsPointerInside = true;
+                ScannerMonitorDisplay.ResetIdleTimer();
+                base.OnPointerEnter(eventData);
             }
-
-            isHoveredOutOfRange = true;
-#if !UNITY_EDITOR
-            ScannerMonitorDisplay.ResetIdleTimer();
-#endif
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            ErrorMessage.AddMessage($"OnPointerExit!");
-            IsHovered = false;
-            isHoveredOutOfRange = false;
-#if !UNITY_EDITOR
-            ScannerMonitorDisplay.ResetIdleTimer();
-#endif
+            if(InInteractionRange())
+            {
+                this.IsPointerInside = false;
+                ScannerMonitorDisplay.ResetIdleTimer();
+                base.OnPointerExit(eventData);
+            }
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            ErrorMessage.AddMessage($"OnPointerDown!");
-#if !UNITY_EDITOR
-            ScannerMonitorDisplay.ResetIdleTimer();
-#endif
+            if(InInteractionRange() && this.IsPointerInside)
+            {
+                ScannerMonitorDisplay.ResetIdleTimer();
+                base.OnPointerDown(eventData);
+            }
+        }
+
+        public override void OnSelect(BaseEventData eventData)
+        {
+            this.HasSelection = true;
+            base.OnSelect(eventData);
+        }
+
+        public override void OnDeselect(BaseEventData eventData)
+        {
+            this.HasSelection = false;
+            base.OnDeselect(eventData);
         }
 
         protected bool InInteractionRange()
         {
-            return Mathf.Abs(Vector3.Distance(gameObject.transform.position, Player.main?.transform.position ?? gameObject.transform.position)) <= 2.5f;
+            distance = Mathf.Abs(Vector3.Distance(gameObject.transform.position, Player.main?.transform.position ?? gameObject.transform.position));
+            return distance <= 2.5f;
         }
     }
 }

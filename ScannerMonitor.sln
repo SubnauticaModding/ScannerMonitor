@@ -1,39 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
+VisualStudioVersion = 17.7.34302.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScannerMonitor", "ScannerMonitor\ScannerMonitor.csproj", "{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScannerMonitor", "ScannerMonitor\ScannerMonitor.csproj", "{EA8A4550-D7CA-416C-A02F-BAFEC9FE80BB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23591588-6D96-418D-9E3A-B023F13EC017}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC8D8E33-B79F-4D65-A528-0020D590B268}"
 	ProjectSection(SolutionItems) = preProject
-		GameDir.targets = GameDir.targets
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		BZ.EXP|Any CPU = BZ.EXP|Any CPU
-		BZ|Any CPU = BZ|Any CPU
-		Editor|Any CPU = Editor|Any CPU
-		SN1.EXP|Any CPU = SN1.EXP|Any CPU
-		SN1|Any CPU = SN1|Any CPU
+		BelowZero|Any CPU = BelowZero|Any CPU
+		Subnautica|Any CPU = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ.EXP|Any CPU.ActiveCfg = BZ.EXP|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ.EXP|Any CPU.Build.0 = BZ.EXP|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ|Any CPU.ActiveCfg = BZ|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.BZ|Any CPU.Build.0 = BZ|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.Editor|Any CPU.ActiveCfg = Editor|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.Editor|Any CPU.Build.0 = Editor|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1.EXP|Any CPU.ActiveCfg = SN1.EXP|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1.EXP|Any CPU.Build.0 = SN1.EXP|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
-		{B8E36BC6-EFB5-4100-B160-BFA2602F3B22}.SN1|Any CPU.Build.0 = SN1|Any CPU
+		{EA8A4550-D7CA-416C-A02F-BAFEC9FE80BB}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{EA8A4550-D7CA-416C-A02F-BAFEC9FE80BB}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{EA8A4550-D7CA-416C-A02F-BAFEC9FE80BB}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{EA8A4550-D7CA-416C-A02F-BAFEC9FE80BB}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0D77E2E7-5B98-411D-8E3A-3B00BAAB71B2}
+		SolutionGuid = {49D8B495-63BC-4E4E-AD9B-D06723A7D623}
 	EndGlobalSection
 EndGlobal

@@ -4,19 +4,19 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 20
-  productGUID: 4c476e7d011d16844b18f8bcce43fd4c
+  productGUID: ec93a7e654e08a44b895ebc22bb3797d
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
-  defaultScreenOrientation: 4
-  targetDevice: 2
+  defaultScreenOrientation: 2
+  targetDevice: 1
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: ScannerMonitor Subnautica Project
-  defaultCursor: {fileID: 0}
+  companyName: Unknown Worlds
+  productName: Subnautica
+  defaultCursor: {fileID: 3, guid: aa0dcf6f4823a69e7ce2de045dfbf1f8, type: 2}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.1372549, g: 0.1215686, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
@@ -42,12 +42,12 @@ PlayerSettings:
   m_SplashScreenLogos: []
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
-  defaultScreenWidth: 1024
-  defaultScreenHeight: 768
+  defaultScreenWidth: 1600
+  defaultScreenHeight: 1200
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
-  m_ActiveColorSpace: 0
+  m_ActiveColorSpace: 1
   m_MTRendering: 1
   m_StackTraceTypes: 010000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
@@ -74,7 +74,7 @@ PlayerSettings:
   androidFullscreenMode: 1
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 0
+  runInBackground: 1
   captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
@@ -83,13 +83,13 @@ PlayerSettings:
   hideHomeButton: 0
   submitAnalytics: 1
   usePlayerLog: 1
-  bakeCollisionMeshes: 0
+  bakeCollisionMeshes: 1
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
   resizableWindow: 0
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
-  gpuSkinning: 0
+  gpuSkinning: 1
   xboxPIXTextureCapture: 0
   xboxEnableAvatar: 0
   xboxEnableKinect: 0
@@ -101,18 +101,18 @@ PlayerSettings:
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
-  xboxEnablePIXSampling: 0
+  xboxEnablePIXSampling: 1
   metalFramebufferOnly: 0
-  xboxOneResolution: 0
-  xboxOneSResolution: 0
-  xboxOneXResolution: 3
+  xboxOneResolution: 1
+  xboxOneSResolution: 1
+  xboxOneXResolution: 5
   xboxOneMonoLoggingLevel: 0
   xboxOneLoggingLevel: 1
   xboxOneDisableEsram: 0
-  xboxOneEnableTypeOptimization: 0
+  xboxOneEnableTypeOptimization: 1
   xboxOnePresentImmediateThreshold: 0
-  switchQueueCommandMemory: 1048576
-  switchQueueControlMemory: 16384
+  switchQueueCommandMemory: 0
+  switchQueueControlMemory: 32768
   switchQueueComputeMemory: 262144
   switchNVNShaderPoolsGranularity: 33554432
   switchNVNDefaultPoolsGranularity: 16777216
@@ -130,7 +130,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0
+  bundleVersion: 1.21.71288
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -150,7 +150,7 @@ PlayerSettings:
       maximumSupportedHeadTracking: 1
     hololens:
       depthFormat: 1
-      depthBufferSharingEnabled: 1
+      depthBufferSharingEnabled: 0
     lumin:
       depthFormat: 0
       frameTiming: 2
@@ -158,8 +158,8 @@ PlayerSettings:
       glCacheMaxBlobSize: 524288
       glCacheMaxFileSize: 8388608
     oculus:
-      sharedDepthBuffer: 1
-      dashSupport: 1
+      sharedDepthBuffer: 0
+      dashSupport: 0
       lowOverheadMode: 0
       protectedContext: 0
       v2Signing: 0
@@ -236,7 +236,7 @@ PlayerSettings:
   iOSMetalForceHardShadows: 0
   metalEditorSupport: 1
   metalAPIValidation: 1
-  iOSRenderExtraFrameOnPause: 0
+  iOSRenderExtraFrameOnPause: 1
   iosCopyPluginsCodeInsteadOfSymlink: 0
   appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: 
@@ -274,46 +274,8 @@ PlayerSettings:
   m_BuildTargetIcons: []
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching: []
-  m_BuildTargetGraphicsJobs:
-  - m_BuildTarget: MacStandaloneSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: Switch
-    m_GraphicsJobs: 0
-  - m_BuildTarget: MetroSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: GameCoreScarlettSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: AppleTVSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: BJMSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: LinuxStandaloneSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: GameCoreXboxOneSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: PS4Player
-    m_GraphicsJobs: 0
-  - m_BuildTarget: iOSSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: PS5Player
-    m_GraphicsJobs: 0
-  - m_BuildTarget: WindowsStandaloneSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: XboxOnePlayer
-    m_GraphicsJobs: 0
-  - m_BuildTarget: LuminSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: CloudRendering
-    m_GraphicsJobs: 0
-  - m_BuildTarget: AndroidPlayer
-    m_GraphicsJobs: 0
-  - m_BuildTarget: WebGLSupport
-    m_GraphicsJobs: 0
-  m_BuildTargetGraphicsJobMode:
-  - m_BuildTarget: PS4Player
-    m_GraphicsJobMode: 0
-  - m_BuildTarget: XboxOnePlayer
-    m_GraphicsJobMode: 0
+  m_BuildTargetGraphicsJobs: []
+  m_BuildTargetGraphicsJobMode: []
   m_BuildTargetGraphicsAPIs: []
   m_BuildTargetVRSettings: []
   openGLRequireES31: 0
@@ -560,7 +522,7 @@ PlayerSettings:
   ps5BGMPath: 
   ps5ShareOverlayImagePath: 
   ps5NPConfigZipPath: 
-  ps5Passcode: frAQBc8Wsa1xVPfvJcrgRYwTiizs2trQ
+  ps5Passcode: F69AzBlax3CF3EDNhm3soLBPh71Yexui
   ps5UseResolutionFallback: 0
   ps5UseAudio3dBackend: 0
   ps5ScriptOptimizationLevel: 2
@@ -591,20 +553,19 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: thunderkit;subnautica
-    7: thunderkit;subnautica
-    13: thunderkit;subnautica
-    14: thunderkit;subnautica
-    19: thunderkit;subnautica
-    21: thunderkit;subnautica
-    25: thunderkit;subnautica
-    26: thunderkit;subnautica
-    27: thunderkit;subnautica
-    28: thunderkit;subnautica
-    29: thunderkit;subnautica
-    30: thunderkit;subnautica
-    32: thunderkit;subnautica
-    33: thunderkit;subnautica
+    1: TK_ADDRESSABLE
+    7: TK_ADDRESSABLE
+    13: TK_ADDRESSABLE
+    14: TK_ADDRESSABLE
+    19: TK_ADDRESSABLE
+    21: TK_ADDRESSABLE
+    25: TK_ADDRESSABLE
+    27: TK_ADDRESSABLE
+    28: TK_ADDRESSABLE
+    29: TK_ADDRESSABLE
+    30: TK_ADDRESSABLE
+    32: TK_ADDRESSABLE
+    33: TK_ADDRESSABLE
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
@@ -693,9 +654,9 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Subnautica
+  organizationId: unknown-worlds-entertainment
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
-  legacyClampBlendShapeWeights: 0
+  legacyClampBlendShapeWeights: 1
