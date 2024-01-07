@@ -13,7 +13,12 @@
         [AssertNotNull]
         public Text text;
 
-        protected override void Start()
+#if SUBNAUTICA
+        protected 
+#else
+        public
+#endif
+            override void Start()
         {
             HoverText = text.text;
         }
